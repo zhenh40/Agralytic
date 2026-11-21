@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>About Us & Data Validation — Agralytic AI</title>
+  <meta name="description" content="The scientific case for Agralytic AI: global crop losses, climate-driven pathogen spread, and how edge AI turns citizens into plant-biosecurity agents.">
+  <meta name="theme-color" content="#0b0b0b">
+    <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="about">
+<main id="main">
+  <section class="page-hero"><div class="container">
+    <div class="eyebrow">The academic runway</div>
+    <h1>Why this <em>exists</em></h1>
+    <p>From reactive chemistry to proactive biology: a citizen-powered early-warning network for plant health.</p>
+  </div></section>
+
+  <section class="section" style="padding-top:16px"><div class="container">
+    <div class="grid g4">
+      <div class="card metric"><div class="label">Of our food comes from plants</div><div class="value">80%</div><div class="cite">FAO, 2019 [1]</div></div>
+      <div class="card metric"><div class="label">Global crop production lost to pests & diseases yearly</div><div class="value">20–40%</div><div class="cite">FAO, 2019 [1]</div></div>
+      <div class="card metric"><div class="label">Annual cost of plant diseases</div><div class="value">$220 B</div><div class="cite">FAO, 2019 [1]</div></div>
+      <div class="card metric"><div class="label">Pests & pathogens moving poleward</div><div class="value">~3 km/yr</div><div class="cite">Bebber et al., 2013 [3]</div></div>
+    </div>
+  </div></section>
+
+  <section class="section"><div class="container split">
+    <article class="stack">
+      <div class="card pad-lg">
+        <div class="eyebrow">1 · The macro crisis (SDG 2 & SDG 13)</div>
+        <h2>A silent harvest thief</h2>
+        <p>Plants provide around 80% of the food humans eat. Yet the Food and Agriculture Organization estimates that <b>20–40% of global crop production is lost to pests and diseases every year</b>, with plant diseases alone costing the world economy more than <b>US$220 billion</b> annually [1]. A global survey of plant-health experts found average losses of 21.5% for wheat, 30% for rice, 22.5% for maize and 17.2% for potato — with the highest losses in food-deficit regions with fast-growing populations [2].</p>
+        <p><b>Climate change is a catalyst.</b> Warmer temperatures and erratic rainfall extend the seasons in which pathogens can reproduce and open new territory: an analysis of 612 crop pests and pathogens showed their ranges have shifted poleward by roughly 3 km per year since 1960 [3]. Diseases once confined to humid tropical farmland increasingly appear in dense urban gardens, rooftops and school plots — exactly where there is no agronomist.</p>
+      </div>
+      <div class="card pad-lg">
+        <div class="eyebrow">2 · Why conventional solutions fail</div>
+        <h2>The chemical trap & the expert gap</h2>
+        <p><b>Guess-spraying.</b> When a home or community plant gets sick, the reflex is a broad-spectrum chemical spray — often the wrong one (fungicides do nothing against bacteria or viruses, and yellow leaves are frequently just a nutrient deficiency). Over-use drives pathogen resistance, harms soil organisms and pollinators, and leaches into groundwater. The world already applies about <b>3.5 million tonnes</b> of pesticide active ingredients per year [4].</p>
+        <p><b>No access to diagnosis.</b> Laboratory phytopathology is slow and costly. By the time a result arrives — days or weeks later — a fast pathogen such as late blight can destroy a whole plot in 7–10 days and has already spread to neighbours.</p>
+      </div>
+      <div class="card pad-lg">
+        <div class="eyebrow">3 · Our thesis</div>
+        <h2>Every smartphone, a plant-quarantine agent</h2>
+        <p>Agralytic AI inverts the paradigm <b>from reactive chemical treatment to proactive biological defence</b>, following the Integrated Pest Management hierarchy promoted by FAO [5]: prevent → monitor → isolate → least-toxic treatment.</p>
+        <div class="timeline-v">
+          <div class="ti"><b>Detect in seconds — on-device.</b><p class="small muted">A computer-vision pipeline runs inside the browser (edge AI). No upload, no data cost, works offline, protects privacy.</p></div>
+          <div class="ti"><b>Treat with what’s in the kitchen.</b><p class="small muted">Evidence-ranked organic recipes with phytotoxicity limits, a dose calculator and a guided checklist.</p></div>
+          <div class="ti"><b>Isolate before it spreads.</b><p class="small muted">Anonymous reports feed a geofenced radar. More than 3 same-pathogen cases within 1 km trigger automatic SMS/WhatsApp alerts with wind-aware spore-drift warnings.</p></div>
+          <div class="ti"><b>Educate a generation.</b><p class="small muted">3D anatomy, microscopic simulations, quizzes and an open Diagnostics Lab turn users into informed Bio-Agents.</p></div>
+        </div>
+      </div>
+      <div class="card pad-lg">
+        <div class="eyebrow">4 · Methodology & limitations</div>
+        <h2>How we keep it honest</h2>
+        <ul class="small">
+          <li><b>Vision model:</b> HSV colour segmentation + morphological leaf extraction + 18 interpretable lesion features → FeatureNet (MLP 18-24-11) trained in-browser on augmented procedural leaves. Its test accuracy is reported live in the <a href="lab.html">Diagnostics Lab</a>. Synthetic accuracy is an upper bound; real-world accuracy must be measured in the field (see validation below).</li>
+          <li><b>Deep-learning upgrade path:</b> a MobileNetV2 transfer-learning script for the public PlantVillage dataset [6] is included; the exported TensorFlow.js model plugs in automatically.</li>
+          <li><b>Treatment safety:</b> every concentration is capped below published phytotoxicity levels; sources are listed on each recipe.</li>
+          <li><b>Privacy by design:</b> on-device inference, EXIF/GPS stripping, face blurring, ~100 m location rounding, AES-256-GCM encryption of alert numbers, no third-party trackers.</li>
+          <li><b>Not a replacement</b> for professional diagnosis in severe cases — the app escalates to extension officers.</li>
+        </ul>
+      </div>
+    </article>
+    <aside class="stack">
+      <div class="card"><div class="card-title"><span class="ic">🎯</span>UN Sustainable Development Goals</div>
+        <div class="stack small"><div><span class="chip" style="background:#DDA63A;color:#fff">SDG 2</span> Zero Hunger — protect local harvests</div><div><span class="chip" style="background:#BF8B2E;color:#fff">SDG 12</span> Responsible consumption — less pesticide, kitchen-waste reuse</div><div><span class="chip" style="background:#3F7E44;color:#fff">SDG 13</span> Climate action — adapt to climate-driven pathogen spread</div><div><span class="chip" style="background:#56C02B;color:#fff">SDG 15</span> Life on land — healthy soils and pollinators</div><div><span class="chip" style="background:#C5192D;color:#fff">SDG 4</span> Quality education — open, explainable AI</div></div></div>
+      <div class="card"><div class="card-title"><span class="ic">✅</span>Field validation (“Boss Check”)</div>
+        <p class="small muted">Real-world tests verified by a teacher, community leader or agronomist. Each entry is loaded from <span class="kbd">/validation.json</span>.</p>
+        <div id="validation"></div></div>
+      <div class="card"><div class="card-title"><span class="ic">📚</span>References</div>
+        <ol class="cite" style="padding-left:18px">
+          <li>FAO (2019). <i>New standards to curb the global spread of plant pests and diseases.</i> Rome. <a href="https://www.fao.org/news/story/en/item/1187738/icode/" rel="noopener" target="_blank">fao.org</a></li>
+          <li>Savary S. et al. (2019). The global burden of pathogens and pests on major food crops. <i>Nature Ecology & Evolution</i> 3, 430–439.</li>
+          <li>Bebber D.P., Ramotowski M.A.T., Gurr S.J. (2013). Crop pests and pathogens move polewards in a warming world. <i>Nature Climate Change</i> 3, 985–988.</li>
+          <li>FAO (2023). <i>FAOSTAT — Pesticides use.</i> Rome.</li>
+          <li>FAO. <i>Integrated Pest Management.</i> Plant Production and Protection Division.</li>
+          <li>Hughes D.P., Salathé M. (2015). An open access repository of images on plant health to enable the development of mobile disease diagnostics. <i>arXiv:1511.08060</i>.</li>
+          <li>Mohanty S.P., Hughes D.P., Salathé M. (2016). Using deep learning for image-based plant disease detection. <i>Frontiers in Plant Science</i> 7:1419.</li>
+        </ol></div>
+      <div class="card"><div class="card-title"><span class="ic">👩‍🔬</span>The team</div><p class="small muted">Agralytic AI is a student-led project built for the Young AI Innovators challenge. <a href="contact.html">Contact us →</a></p></div>
+    </aside>
+  </div></section>
+</main>
+<script src="knowledge.js"></script>
+<script src="demo-backend.js"></script>
+<script src="app.js"></script>
+<script src="samples.js"></script>
+<script src="about.js"></script>
+</body>
+</html>

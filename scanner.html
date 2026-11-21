@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Bio-Scanner — Agralytic AI</title>
+  <meta name="description" content="On-device AI leaf disease scanner with AR overlays, disease forecast and anatomy simulator.">
+  <meta name="theme-color" content="#0b0b0b">
+    <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="scanner">
+<main id="main">
+  <section class="page-hero"><div class="container">
+    <div class="eyebrow">Edge-AI computer vision</div>
+    <h1>Bio-<em>scanner</em></h1>
+    <p>Point your camera at one leaf. The AI runs <b>inside your browser</b> — your photo never leaves your phone. AR markers show where the infection is growing.</p>
+  </div></section>
+
+  <section class="section" style="padding-top:16px"><div class="container split">
+    <div>
+      <div class="scanner-stage" id="stage">
+        <video id="video" playsinline muted autoplay class="hidden" aria-label="Live camera"></video>
+        <canvas id="view" class="view hidden" aria-label="Captured leaf"></canvas>
+        <canvas id="overlay" class="overlay"></canvas>
+        <div class="placeholder" id="ph"><div><div class="big">🍃</div><h3 style="color:#fff">Ready to scan</h3><p style="opacity:.8;max-width:340px">Start the camera, upload a photo, or try a sample leaf below.</p>
+          <div class="row" style="justify-content:center"><button class="btn btn-primary btn-lg" id="start-cam">Start camera</button><label class="btn btn-lg" style="background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.3)">Upload photo<input type="file" id="file" accept="image/*" hidden></label></div></div></div>
+        <div class="scan-hud hidden" id="hud"><span class="chip" id="hud-leaf">searching…</span><span class="chip" id="hud-guess">🧠 –</span></div>
+        <div class="scan-guide hidden" id="guide">Fill the frame with one leaf</div>
+        <div class="scan-line hidden" id="scanline"></div>
+      </div>
+      <div class="scan-controls" id="controls">
+        <button class="btn hidden" id="flip" title="Switch camera">Flip</button>
+        <button class="btn hidden" id="torch" title="Flashlight">Light</button>
+        <button class="shutter hidden" id="shutter" aria-label="Capture and diagnose"></button>
+        <button class="btn hidden" id="stop" title="Stop camera">Stop</button>
+        <button class="btn hidden" id="rescan">New scan</button>
+        <label class="btn hidden" id="upload2">Upload<input type="file" id="file2" accept="image/*" hidden></label>
+      </div>
+      <div class="card" style="margin-top:20px">
+        <div class="card-title"><span class="ic">🧫</span>No sick plant nearby? Try a sample leaf</div>
+        <div class="samples" id="samples"></div>
+      </div>
+    </div>
+
+    <aside class="stack">
+      <div class="card">
+        <div class="card-title"><span class="ic">🎯</span>Scan like a pro</div>
+        <ol class="small muted" style="padding-left:18px;margin:0">
+          <li>Daylight, no harsh shadow. Use 🔦 indoors.</li>
+          <li>Hold 15–25 cm away; one leaf fills the frame.</li>
+          <li>Wait for the <b style="color:var(--primary)">green brackets</b> and red AR markers.</li>
+          <li>Tap the shutter. Scan the underside too for mildew & rust.</li>
+        </ol>
+      </div>
+      <div class="card">
+        <div class="field"><label class="f" for="plant">What plant is it? (optional)</label>
+          <select id="plant" class="input"><option value="">I'm not sure</option><option>Tomato</option><option>Chilli</option><option>Cucumber</option><option>Rice</option><option>Potato</option><option>Beans</option><option>Basil</option><option>Spinach</option><option>Mango</option><option>Papaya</option><option>Rose</option><option>Other</option></select></div>
+        <label class="check"><input type="checkbox" id="consent" checked><span class="small"><b>Share an anonymous report</b> with the Outbreak Radar (disease + location rounded to ~100 m, no photo). Helps protect your neighbours.</span></label>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="ic">📴</span>Offline queue <span class="chip" id="q-count" style="margin-left:auto">0</span></div>
+        <div id="queue" class="small muted">Reports made without signal are stored safely on your device (IndexedDB) and sent automatically when you’re back online.</div>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="ic">🔐</span>Privacy check</div>
+        <div id="privacy" class="small muted">Uploaded photos are re-encoded on your device: EXIF, GPS and phone-model data are removed and faces are blurred (where supported) before anything is shared.</div>
+      </div>
+    </aside>
+  </div></section>
+
+  <section class="section hidden" id="results" style="padding-top:0"><div class="container">
+    <div class="card pad-lg">
+      <div class="result-hero">
+        <div class="ring" id="conf-ring"><div><span id="conf-v">0%</span><small>CONFIDENCE</small></div></div>
+        <div class="dz">
+          <div class="row" id="dz-chips"></div>
+          <h2 id="dz-name" style="margin-top:8px">–</h2>
+          <div class="sci" id="dz-sci"></div>
+          <div class="row small muted" style="margin-top:8px" id="dz-meta"></div>
+        </div>
+        <div style="min-width:220px">
+          <div class="row between small"><b>Leaf damage (severity)</b><b id="sev-v">0%</b></div>
+          <div class="severity-scale" id="sev-scale"><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="small muted" id="sev-label" style="margin-top:6px"></div>
+          <div class="row" style="margin-top:14px"><a class="btn btn-primary" id="go-rx" href="prescription.html">Get organic treatment</a></div>
+        </div>
+      </div>
+      <div id="dz-alerts" style="margin-top:16px"></div>
+
+      <div class="tabs" role="tablist" style="margin-top:22px">
+        <button class="on" data-tab="t-diag" role="tab">Diagnosis</button>
+        <button data-tab="t-time" role="tab">14-day forecast</button>
+        <button data-tab="t-anat" role="tab">Anatomy & microscope</button>
+        <button data-tab="t-act" role="tab">Emergency action</button>
+      </div>
+
+      <div class="tabpanel" id="t-diag">
+        <div class="grid g3">
+          <div><h3>AI probability</h3><div class="prob" id="probs"></div></div>
+          <div><h3>What the AI saw</h3><div class="compare"><figure><canvas id="img-orig"></canvas><figcaption>Your leaf + AR markers</figcaption></figure><figure><canvas id="img-mask"></canvas><figcaption>Tissue segmentation</figcaption></figure></div>
+            <div class="row small" style="margin-top:10px;gap:10px"><span><i style="display:inline-block;width:10px;height:10px;background:#22c55e;border-radius:3px"></i> healthy</span><span><i style="display:inline-block;width:10px;height:10px;background:#facc15;border-radius:3px"></i> chlorosis</span><span><i style="display:inline-block;width:10px;height:10px;background:#92400e;border-radius:3px"></i> necrosis</span><span><i style="display:inline-block;width:10px;height:10px;background:#f97316;border-radius:3px"></i> pustules</span><span><i style="display:inline-block;width:10px;height:10px;background:#e2e8f0;border-radius:3px"></i> powder</span></div>
+            <button class="btn btn-sm" id="second" style="margin-top:12px">Cloud AI second opinion</button><div id="second-out" class="small" style="margin-top:8px"></div>
+          </div>
+          <div><h3>About this condition</h3><div id="about-dz" class="small"></div></div>
+        </div>
+      </div>
+
+      <div class="tabpanel hidden" id="t-time">
+        <p class="muted">Move the slider to see how this leaf could look if <b>nothing is done</b>. The simulation grows the detected lesions with the pathogen’s typical speed and seeds new infection points.</p>
+        <div class="compare" style="max-width:760px;margin:0 auto"><figure><canvas id="sim-a"></canvas><figcaption>Today</figcaption></figure><figure><canvas id="sim-b"></canvas><figcaption id="sim-cap">Day 0</figcaption></figure></div>
+        <div style="max-width:760px;margin:18px auto 0">
+          <input type="range" id="sim-days" min="0" max="14" value="0" step="1" aria-label="Days into the future">
+          <div class="timeline-labels"><span>Today</span><span>Day 3</span><span>Day 7</span><span>Day 14</span></div>
+          <div class="row between" style="margin-top:14px"><button class="btn btn-sm" id="sim-play">▶ Play forecast</button><div class="meter" style="flex:1;max-width:420px"><span>Damage</span><div class="bar red"><i id="sim-bar" style="width:0%"></i></div><b id="sim-sev">–</b></div></div>
+          <p class="small muted" id="sim-note" style="margin-top:10px"></p>
+        </div>
+      </div>
+
+      <div class="tabpanel hidden" id="t-anat">
+        <div class="grid g2">
+          <div><h3>3D leaf anatomy</h3><p class="small muted">Drag to rotate. Tap a layer to learn what it does. ⚠ = tissue this pathogen attacks.</p><div id="anatomy"></div><div class="anatomy-info card flat" id="anatomy-info"></div></div>
+          <div><h3>Microscopic simulator</h3><p class="small muted">How the pathogen breaks into the cells and stops photosynthesis.</p>
+            <div class="micro-wrap"><canvas id="micro"></canvas><div class="micro-caption" id="micro-cap"></div></div>
+            <div class="row" style="margin-top:12px"><button class="btn btn-sm" id="micro-play">▶ Play</button><input type="range" id="micro-p" min="0" max="100" value="0" style="flex:1" aria-label="Infection progress"></div>
+            <div class="meter" style="margin-top:8px"><span>Photosynthesis</span><div class="bar"><i id="micro-ps" style="width:100%"></i></div><b id="micro-psv">100%</b></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tabpanel hidden" id="t-act">
+        <div class="grid g2">
+          <div><h3>Do this now</h3><ol class="checklist" id="act-list"></ol></div>
+          <div class="stack">
+            <a class="btn btn-primary btn-lg btn-block" id="go-rx2" href="prescription.html">Open my Eco-Prescription</a>
+            <div class="card flat" id="report-status"><b>Community report</b><p class="small muted" style="margin:6px 0 0">Waiting for diagnosis…</p></div>
+            <div class="card flat" id="expert-box"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div></section>
+</main>
+<script src="knowledge.js"></script>
+<script src="demo-backend.js"></script>
+<script src="app.js"></script>
+<script src="samples.js"></script>
+<script src="vision.js"></script>
+<script src="idb.js"></script>
+<script src="anatomy.js"></script>
+<script src="micro.js"></script>
+<script src="scanner.js"></script>
+</body>
+</html>

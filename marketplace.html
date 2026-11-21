@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Marketplace & Seed Swap — Agralytic AI</title>
+  <meta name="description" content="Zero-waste exchange of kitchen ingredients for organic remedies, seed swaps and peer-to-peer sale of healthy harvests.">
+  <meta name="theme-color" content="#0b0b0b">
+    <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="marketplace">
+<main id="main">
+  <section class="page-hero"><div class="container">
+    <div class="eyebrow">Circular green economy</div>
+    <h1>Seed <em>swap</em></h1>
+    <p>Need eggshells, garlic skins or coffee grounds for your remedy? Swap kitchen “waste” for free with neighbours, trade seeds, or share the healthy harvest the AI helped you save — no middlemen.</p>
+  </div></section>
+
+  <section class="section" style="padding-top:12px"><div class="container">
+    <div class="grid g4" style="margin-bottom:22px">
+      <div class="card metric"><div class="label">Zero-waste offers</div><div class="value" id="k-give">0</div></div>
+      <div class="card metric"><div class="label">Swaps</div><div class="value" id="k-swap">0</div></div>
+      <div class="card metric"><div class="label">Harvest for sale</div><div class="value" id="k-sell">0</div></div>
+      <div class="card metric"><div class="label">Requests</div><div class="value" id="k-req">0</div></div>
+    </div>
+    <div class="row between" style="margin-bottom:16px">
+      <div class="seg" id="cat"><button data-c="" class="on">All</button><button data-c="kitchen">Kitchen waste</button><button data-c="seeds">Seeds</button><button data-c="harvest">Harvest</button><button data-c="tools">Tools</button></div>
+      <div class="row"><label class="check small"><input type="checkbox" id="mine">Only mine</label><button class="btn btn-primary" id="new">New listing</button></div>
+    </div>
+    <div class="grid g3" id="list"><div class="skeleton" style="height:180px"></div></div>
+    <div class="banner info" style="margin-top:24px"><span class="bi">🛡️</span><span class="grow small"><b>Safety for young users:</b> no phone numbers or addresses are shown. Requests are sent through the app and locations are rounded to ~100 m. Meet in public places (school, community garden) with an adult.</span></div>
+  </div></section>
+</main>
+<script src="knowledge.js"></script>
+<script src="demo-backend.js"></script>
+<script src="app.js"></script>
+<script src="samples.js"></script>
+<script src="marketplace.js"></script>
+</body>
+</html>

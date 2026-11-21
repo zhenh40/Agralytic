@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>FAQ & Knowledge Base — Agralytic AI</title>
+  <meta name="description" content="Botanical dictionary, collectible plant-pathology wiki-cards, FAQ and camera troubleshooting. Works offline.">
+  <meta name="theme-color" content="#0b0b0b">
+    <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="faq">
+<main id="main">
+  <section class="page-hero"><div class="container">
+    <div class="eyebrow">Available offline 📴</div>
+    <h1>Knowledge <em>base</em></h1>
+    <p>A kid-friendly botanical dictionary, collectible pathology cards and answers to common questions. Install the app and all of this works without internet.</p>
+    <div class="row" style="margin-top:12px"><input class="input" id="search" placeholder="🔎 Search diseases, terms, questions…" style="max-width:440px"><span class="chip" id="offline-chip">Cached for offline use</span></div>
+  </div></section>
+
+  <section class="section" style="padding-top:16px"><div class="container">
+    <div class="section-head"><div><div class="eyebrow">Germ types</div><h2>Virus, bacteria, fungus — what’s the difference?</h2></div></div>
+    <div class="grid g3" id="types"></div>
+  </div></section>
+
+  <section class="section" id="cards"><div class="container">
+    <div class="section-head"><div><div class="eyebrow">Plant pathology wiki-cards</div><h2>Collect them all</h2><p>Tap a card to flip it. Cards you have diagnosed with the Bio-Scanner are marked as <b>collected</b>.</p></div><span class="chip green" id="collected">0 / 11 collected</span></div>
+    <div class="tcards" id="tcards"></div>
+  </div></section>
+
+  <section class="section"><div class="container">
+    <div class="section-head"><div><div class="eyebrow">Botanical dictionary</div><h2>Words every Bio-Agent should know</h2></div></div>
+    <div class="gloss" id="gloss"></div>
+  </div></section>
+
+  <section class="section"><div class="container grid g2">
+    <div><div class="eyebrow">FAQ</div><h2>Frequently asked questions</h2><div id="faq"></div></div>
+    <div><div class="eyebrow">Troubleshooting</div><h2>Camera & scanning problems</h2><div id="trouble"></div>
+      <div class="card" style="margin-top:16px"><div class="card-title"><span class="ic">📲</span>Install as an app</div><p class="small muted">Android/Chrome: menu ⋮ → “Install app”. iPhone/Safari: Share ⬆ → “Add to Home Screen”. The scanner, dictionary and recipes then work offline.</p></div></div>
+  </div></section>
+</main>
+<script src="knowledge.js"></script>
+<script src="demo-backend.js"></script>
+<script src="app.js"></script>
+<script src="samples.js"></script>
+<script src="idb.js"></script>
+<script src="faq.js"></script>
+</body>
+</html>

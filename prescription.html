@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Eco-Prescription — Agralytic AI</title>
+  <meta name="description" content="AI-customised organic plant medicine from kitchen ingredients, with toxicity calculator and guided checklist.">
+  <meta name="theme-color" content="#0b0b0b">
+    <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="prescription">
+<main id="main">
+  <section class="page-hero"><div class="container">
+    <div class="eyebrow">AI recipe customizer</div>
+    <h1>Eco-<em>prescription</em></h1>
+    <p>Your diagnosis + your kitchen + today’s weather → a safe organic treatment plan. Every dose is checked against phytotoxicity limits.</p>
+  </div></section>
+
+  <section class="section" style="padding-top:16px"><div class="container">
+    <div class="card pad-lg">
+      <div class="grid g4" style="align-items:end">
+        <div class="field" style="grid-column:span 2"><label class="f" for="dz">Diagnosis</label><select class="input" id="dz"></select></div>
+        <div class="field"><label class="f" for="plant">Plant</label><input class="input" id="plant" placeholder="e.g. Tomato"></div>
+        <div class="field"><label class="f" for="vol">Spray volume</label><select class="input" id="vol"><option value="0.5">0.5 L (small bottle)</option><option value="1" selected>1 L (spray bottle)</option><option value="2">2 L</option><option value="5">5 L (garden sprayer)</option><option value="16">16 L (backpack sprayer)</option></select></div>
+      </div>
+      <div class="field"><label class="f" for="sev">Leaf damage: <span id="sev-v">20</span>%</label><input type="range" id="sev" min="0" max="100" value="20"></div>
+      <label class="f">What do you have at home? <span class="muted small">(tap to toggle — the AI prefers recipes you can make right now)</span></label>
+      <div class="row" id="pantry" style="margin-bottom:14px"></div>
+      <div class="row"><input class="input" id="pantry-add" placeholder="Add another ingredient…" style="max-width:280px"><button class="btn btn-sm" id="pantry-add-btn">+ Add</button><span style="flex:1"></span><button class="btn btn-primary btn-lg" id="gen">Generate my prescription</button></div>
+    </div>
+
+    <div id="rx" class="hidden" style="margin-top:24px">
+      <div class="card pad-lg">
+        <div class="rx-header"><span class="urgency" id="urg"></span><h2 style="margin:0" id="rx-title"></h2><span class="chip" id="rx-engine" style="margin-left:auto"></span></div>
+        <div class="grid g2" style="margin-top:18px">
+          <div><h3>Immediate actions</h3><ul id="immediate" class="small" style="padding-left:18px;margin:0"></ul></div>
+          <div id="ai-notes-box"><h3>Adapted to your conditions</h3><div id="ai-notes" class="small"></div></div>
+        </div>
+      </div>
+
+      <div class="split" style="margin-top:24px">
+        <div class="stack">
+          <div class="card pad-lg" id="primary"></div>
+          <div class="card" id="alts-card"><div class="card-title"><span class="ic">🔁</span>Alternative recipes</div><div class="grid g3" id="alts"></div></div>
+        </div>
+        <aside class="stack">
+          <div class="card">
+            <div class="card-title"><span class="ic">⚗️</span>Toxicity calculator</div>
+            <p class="card-sub">Organic ≠ harmless. Check the dose before you spray.</p>
+            <div class="field"><label class="f" for="tx-recipe">Recipe</label><select class="input" id="tx-recipe"></select></div>
+            <div class="grid g2" style="gap:10px">
+              <div class="field"><label class="f" for="tx-water">Water (L)</label><input class="input" type="number" id="tx-water" min="0.1" step="0.1" value="1"></div>
+              <div class="field"><label class="f" for="tx-amt" id="tx-amt-l">Amount</label><input class="input" type="number" id="tx-amt" min="0" step="0.5" value="5"></div>
+            </div>
+            <input type="range" id="tx-slider" min="0" max="30" step="0.5" value="5" aria-label="Active ingredient per litre">
+            <div class="gauge" style="margin-top:12px"><div class="needle" id="tx-needle"></div></div>
+            <div class="gauge-labels"><span>too weak</span><span>safe</span><span>strong</span><span>burns leaves</span></div>
+            <div id="tx-verdict" style="margin-top:14px"></div>
+          </div>
+          <div class="card">
+            <div class="card-title"><span class="ic">💧</span>Eco-impact counter</div>
+            <div class="eco-drop"><div class="d">💧</div><div><div class="big-number" id="eco-l">0</div><div class="small muted">litres of drinking water protected*</div></div></div>
+            <div class="divider"></div>
+            <dl class="kv small"><dt>Synthetic pesticide avoided</dt><dd id="eco-ml">0 ml</dd><dt>Your lifetime total</dt><dd id="eco-life">0 ml</dd><dt>Kitchen waste reused</dt><dd id="eco-waste">–</dd></dl>
+            <p class="cite" style="margin-top:10px">*By choosing this recipe instead of a typical synthetic concentrate (≈2 ml/L, 250 g active ingredient per L), you prevent enough pesticide to push this many litres of water above the EU drinking-water limit of 0.1 µg/L per pesticide.</p>
+          </div>
+          <div class="card">
+            <div class="card-title"><span class="ic">🗓️</span>Treatment schedule</div>
+            <ul class="sched-list" id="sched"></ul>
+            <button class="btn btn-sm btn-block" id="add-cal" style="margin-top:12px">Add to my dashboard calendar</button>
+          </div>
+        </aside>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-head"><div><div class="eyebrow">Decentralized crowdsourced bio-rating</div><h2>Community-verified recipe library</h2><p>Recipes are ranked by the <b>Wilson lower bound</b> of “it worked” votes. When confidence drops below 30% after 5+ reviews, the system <b>automatically demotes</b> the recipe so it can’t mislead others.</p></div><button class="btn" id="submit-recipe">Share your recipe</button></div>
+      <div class="grid g3" id="library"><div class="skeleton" style="height:140px"></div></div>
+    </div>
+  </div></section>
+</main>
+<script src="knowledge.js"></script>
+<script src="demo-backend.js"></script>
+<script src="app.js"></script>
+<script src="samples.js"></script>
+<script src="prescription.js"></script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Diagnostics Lab — Agralytic AI</title>
+  <meta name="description" content="Open the AI black box: model playground, live in-browser training, confusion matrix and microscopic pathogen simulator.">
+  <meta name="theme-color" content="#0b0b0b">
+    <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="lab">
+<main id="main">
+  <section class="page-hero"><div class="container">
+    <div class="eyebrow">Explainable AI · for students & judges</div>
+    <h1>The <em>lab</em></h1>
+    <p>Open the black box. Tweak the computer-vision pipeline, watch a neural network train <b>live in your browser</b>, and inspect exactly how accurate it is.</p>
+  </div></section>
+
+  <section class="section" style="padding-top:12px"><div class="container">
+    <div class="section-head"><div><div class="eyebrow">01 · Model playground</div><h2>See what the AI sees</h2><p>Move the sliders to change how pixels are classified. Watch the masks, the 18 features and the final prediction change instantly.</p></div></div>
+    <div class="split">
+      <div class="card">
+        <div class="row" style="margin-bottom:14px"><select class="input" id="pg-dz" style="width:auto"></select><button class="btn btn-sm" id="pg-new">New leaf</button><label class="btn btn-sm">Upload<input type="file" id="pg-file" accept="image/*" hidden></label><span class="chip" id="pg-ms" style="margin-left:auto">– ms</span></div>
+        <div class="pipeline">
+          <figure><canvas id="pp-0"></canvas>1 · Input (RGB)</figure>
+          <figure><canvas id="pp-1"></canvas>2 · Leaf segmentation</figure>
+          <figure><canvas id="pp-2"></canvas>3 · Tissue classes (HSV)</figure>
+          <figure><canvas id="pp-3"></canvas>4 · Lesion components</figure>
+        </div>
+        <div class="grid g2" style="margin-top:16px">
+          <div>
+            <h3>Parameters</h3>
+            <div id="params"></div>
+            <button class="btn btn-sm btn-ghost" id="pg-reset">Reset defaults</button>
+          </div>
+          <div>
+            <h3>Prediction</h3><div class="prob" id="pg-probs"></div>
+            <h3 style="margin-top:16px">Hidden layer (24 neurons)</h3><div id="pg-neurons" style="display:grid;grid-template-columns:repeat(12,1fr);gap:3px"></div>
+          </div>
+        </div>
+      </div>
+      <div class="card"><h3>Feature vector</h3><p class="small muted">The 18 interpretable numbers the network reads. No hidden magic.</p><table class="feature-table" id="pg-feat"></table></div>
+    </div>
+  </div></section>
+
+  <section class="section"><div class="container">
+    <div class="section-head"><div><div class="eyebrow">02 · AI training progress tracker</div><h2>Train the neural network yourself</h2><p>FeatureNet is a multilayer perceptron (18 → 24 → 11). It learns from procedurally generated, augmented leaves (random rotation, background, lighting and blur). Press train and watch the loss fall.</p></div></div>
+    <div class="grid g4" style="margin-bottom:20px">
+      <div class="card metric"><div class="label">Test accuracy</div><div class="value" id="tm-acc">–</div><div class="trend" id="tm-acc-s"></div></div>
+      <div class="card metric"><div class="label">Training images</div><div class="value" id="tm-n">–</div><div class="trend">synthetic, augmented</div></div>
+      <div class="card metric"><div class="label">Parameters</div><div class="value" id="tm-p">–</div><div class="trend">fits in 30 KB</div></div>
+      <div class="card metric"><div class="label">Real scans analysed</div><div class="value" id="tm-scans">–</div><div class="trend" id="tm-conf"></div></div>
+    </div>
+    <div class="split">
+      <div class="card">
+        <div class="row between"><h3 style="margin:0">Loss & accuracy per epoch</h3><div class="row small"><span style="color:#22c55e">● train loss</span><span style="color:#0ea5e9">● val accuracy</span></div></div>
+        <div id="tr-chart" style="margin-top:10px"></div>
+        <div class="divider"></div>
+        <div class="grid g3" style="align-items:end">
+          <div><label class="f" for="tr-n">Images per class: <span id="tr-n-v">40</span></label><input type="range" id="tr-n" min="15" max="90" step="5" value="40"></div>
+          <div><label class="f" for="tr-e">Epochs: <span id="tr-e-v">120</span></label><input type="range" id="tr-e" min="20" max="200" step="10" value="120"></div>
+          <div class="row"><button class="btn btn-primary" id="tr-go">Train in browser</button><button class="btn btn-sm btn-ghost" id="tr-reset" title="Use the shipped model">↺</button></div>
+        </div>
+        <div class="bar" style="margin-top:14px"><i id="tr-bar" style="width:0%"></i></div>
+        <p class="small muted" id="tr-status" style="margin-top:8px">Showing the shipped model’s training history.</p>
+      </div>
+      <div class="card"><h3>Confusion matrix (held-out test set)</h3><p class="small muted">Rows = true disease, columns = predicted. A perfect model has numbers only on the diagonal.</p><div style="overflow:auto"><table class="confusion" id="cm"></table></div></div>
+    </div>
+    <div class="banner warn" style="margin-top:20px"><span class="bi">🔬</span><span class="grow small"><b>Scientific honesty:</b> accuracy on synthetic leaves is an upper bound — real photos are messier. That is why every result shows a confidence score, why we offer a cloud second opinion, and why the app can load a deep model (MobileNetV2 fine-tuned on the 54,000-image PlantVillage dataset — see <span class="kbd">training/</span>). <span id="tf-status"></span></span></div>
+  </div></section>
+
+  <section class="section"><div class="container">
+    <div class="section-head"><div><div class="eyebrow">03 · Microscopic simulator</div><h2>Inside an infected leaf</h2><p>Choose a pathogen type and press play to watch it invade a leaf cross-section. The meter shows how photosynthesis collapses.</p></div>
+      <div class="seg" id="mi-type"><button data-t="fungal" class="on">Fungus</button><button data-t="oomycete">Water mould</button><button data-t="bacterial">Bacteria</button><button data-t="viral">Virus</button><button data-t="abiotic">Deficiency</button></div></div>
+    <div class="micro-wrap"><canvas id="mi"></canvas><div class="micro-caption" id="mi-cap"></div></div>
+    <div class="row" style="margin-top:12px"><button class="btn" id="mi-play">▶ Play</button><input type="range" id="mi-p" min="0" max="100" value="0" style="flex:1" aria-label="Infection progress"><div class="meter" style="min-width:260px"><span>Photosynthesis</span><div class="bar"><i id="mi-ps" style="width:100%"></i></div><b id="mi-psv">100%</b></div></div>
+  </div></section>
+</main>
+<script src="knowledge.js"></script>
+<script src="demo-backend.js"></script>
+<script src="app.js"></script>
+<script src="samples.js"></script>
+<script src="vision.js"></script>
+<script src="micro.js"></script>
+<script src="lab.js"></script>
+</body>
+</html>

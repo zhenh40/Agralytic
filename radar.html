@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Outbreak Radar — Agralytic AI</title>
+  <meta name="description" content="Live community heat-map of plant disease, wind-driven spore vectors and automatic SMS/WhatsApp early warnings.">
+  <meta name="theme-color" content="#0b0b0b">
+    <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="leaflet.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="radar">
+<main id="main">
+  <section class="page-hero"><div class="container">
+    <div class="eyebrow">Community early-warning system</div>
+    <h1>Outbreak <em>radar</em></h1>
+    <p>Every anonymous scan becomes a dot of intelligence. When <b>more than 3 cases of the same pathogen</b> appear within <b>1 km</b> in 14 days, a red zone is declared and registered residents are alerted automatically.</p>
+  </div></section>
+
+  <section class="section" style="padding-top:12px"><div class="container">
+    <div class="row between" style="margin-bottom:14px">
+      <div class="row">
+        <select class="input" id="f-dz" style="width:auto"><option value="">All diseases</option></select>
+        <div class="seg" id="f-days"><button data-d="7">7 d</button><button data-d="14" class="on">14 d</button><button data-d="30">30 d</button></div>
+      </div>
+      <div class="row">
+        <label class="check small"><input type="checkbox" id="l-heat" checked>Heat-map</label>
+        <label class="check small"><input type="checkbox" id="l-pts">Cases</label>
+        <label class="check small"><input type="checkbox" id="l-ob" checked>Red zones</label>
+        <label class="check small"><input type="checkbox" id="l-wind" checked>Spore vectors</label>
+        <button class="btn btn-sm" id="me">My area</button>
+      </div>
+    </div>
+    <div class="split" style="grid-template-columns:1fr 340px">
+      <div>
+        <div class="map" id="map" role="application" aria-label="Outbreak map"></div>
+        <div class="map-legend" style="margin-top:10px"><span><i style="background:linear-gradient(90deg,#22c55e,#facc15,#dc2626)"></i>infection density</span><span><i style="background:#eab308"></i>watch (4–5)</span><span><i style="background:#f97316"></i>warning (6–9)</span><span><i style="background:#dc2626"></i>critical (10+)</span><span>〰️ simulated spore drift (live wind)</span></div>
+      </div>
+      <aside class="stack">
+        <div class="card">
+          <div class="card-title"><span class="ic">🌬️</span>Wind & spore drift</div>
+          <div class="row"><div class="wind-rose"><span class="arrow" id="wind-arrow">⬆</span></div><div class="small"><b id="wind-txt">–</b><div class="muted" id="wind-sub">Spores travel downwind</div></div></div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span class="ic">🚨</span>Active red zones <span class="chip red" id="ob-count" style="margin-left:auto">0</span></div>
+          <div id="ob-list" style="max-height:300px;overflow:auto"></div>
+        </div>
+      </aside>
+    </div>
+  </div></section>
+
+  <section class="section" style="padding-top:0"><div class="container grid g2">
+    <div class="card pad-lg">
+      <div class="card-title"><span class="ic">📲</span>Early-warning registration</div>
+      <p class="card-sub">Get an automatic SMS, WhatsApp or Telegram message when a red zone forms near your garden. Your number is encrypted (AES-256-GCM) and never shown to anyone.</p>
+      <form id="sub-form">
+        <div class="seg" id="channel" style="margin-bottom:14px"><button type="button" data-c="whatsapp" class="on">WhatsApp</button><button type="button" data-c="sms">SMS</button><button type="button" data-c="telegram">Telegram</button></div>
+        <div class="field"><label class="f" for="contact" id="contact-l">Phone number (international format)</label><input class="input" id="contact" placeholder="+62 812 3456 7890" inputmode="tel" autocomplete="tel"></div>
+        <div class="field"><label class="f" for="radius">Alert radius: <span id="radius-v">2</span> km</label><input type="range" id="radius" min="0.5" max="10" step="0.5" value="2"></div>
+        <div class="field small muted" id="sub-loc">Location: using your current position (rounded to ~100 m).</div>
+        <label class="check" style="margin-bottom:14px"><input type="checkbox" id="consent"><span class="small">I agree to receive outbreak alerts. If I am under 18, my parent/guardian agrees too. I can unsubscribe any time.</span></label>
+        <button class="btn btn-primary btn-block">Activate alerts</button>
+      </form>
+      <div id="sub-out" style="margin-top:14px"></div>
+      <details style="margin-top:10px"><summary class="small muted" style="cursor:pointer">Unsubscribe</summary><div class="row" style="margin-top:8px"><input class="input" id="unsub-code" placeholder="Unsubscribe code"><button class="btn btn-sm" id="unsub">Unsubscribe</button></div></details>
+    </div>
+    <div class="card pad-lg">
+      <div class="card-title"><span class="ic">📡</span>Autonomous alert engine — live log</div>
+      <p class="card-sub">The backend watches every report, runs the cluster rule and dispatches messages through Twilio without any human action. <span id="mode-chip"></span></p>
+      <div class="banner info" style="margin-bottom:12px"><span class="bi">🧪</span><span class="grow small"><b>Demo for judges:</b> simulate 5 reports near your location and watch the system declare a red zone and fire alerts in real time.</span></div>
+      <div class="row" style="margin-bottom:14px"><select class="input" id="sim-dz" style="width:auto"></select><button class="btn btn-danger" id="simulate">Simulate outbreak near me</button></div>
+      <div class="alert-log" id="log"><div class="muted small">No alerts yet.</div></div>
+    </div>
+  </div></section>
+</main>
+<script src="knowledge.js"></script>
+<script src="demo-backend.js"></script>
+<script src="app.js"></script>
+<script src="samples.js"></script>
+<script src="leaflet.js"></script>
+<script src="leaflet-heat.js"></script>
+<script src="radar.js"></script>
+</body>
+</html>

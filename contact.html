@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Contact & Support — Agralytic AI</title>
+  <meta name="description" content="Get help with Agralytic AI, report a wrong diagnosis, or partner with us.">
+  <meta name="theme-color" content="#0b0b0b">
+    <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="contact">
+<main id="main">
+  <section class="page-hero"><div class="container">
+    <div class="eyebrow">We’re here to help</div>
+    <h1>Talk to <em>us</em></h1>
+    <p>Wrong diagnosis? Idea for a feature? Want to bring Agralytic to your school or farmer group? Send us a message.</p>
+  </div></section>
+  <section class="section" style="padding-top:16px"><div class="container split">
+    <div class="card pad-lg">
+      <form id="cf">
+        <div class="grid g2" style="gap:12px">
+          <div class="field"><label class="f" for="n">Name or nickname</label><input class="input" id="n" required maxlength="60"></div>
+          <div class="field"><label class="f" for="e">Email (optional, only if you want a reply)</label><input class="input" id="e" type="email" maxlength="120"></div>
+        </div>
+        <div class="field"><label class="f" for="t">Topic</label><select class="input" id="t"><option>Wrong or unclear diagnosis</option><option>Technical problem</option><option>Recipe safety concern</option><option>School / community partnership</option><option>Privacy request</option><option>Other</option></select></div>
+        <div class="field"><label class="f" for="m">Message</label><textarea class="input" id="m" required maxlength="2000" placeholder="Tell us what happened…"></textarea></div>
+        <button class="btn btn-primary btn-lg">Send message</button>
+      </form>
+      <div id="out" style="margin-top:14px"></div>
+    </div>
+    <aside class="stack">
+      <div class="card"><div class="card-title"><span class="ic">🧑‍🌾</span>Instant help</div><p class="small muted">Our AI agronomist answers 24/7 — tap the 🧑‍🌾 button at the bottom right, or speak to it hands-free.</p><button class="btn btn-sm" id="open-chat">Open assistant</button></div>
+      <div class="card"><div class="card-title"><span class="ic">🚑</span>Severe outbreak?</div><p class="small muted">Contact your local agricultural extension office: Indonesia — <i>Balai Penyuluhan Pertanian (BPP)</i> or the Dinas Pertanian of your regency; Singapore — NParks / Animal & Veterinary Service plant health.</p></div>
+      <div class="card"><div class="card-title"><span class="ic">🔐</span>Your data</div><p class="small muted">We don’t require accounts, emails or phone numbers. To delete alert subscriptions use your unsubscribe code on the Radar page. To delete your on-device history, use the button below.</p><button class="btn btn-sm btn-ghost" id="wipe">Delete my on-device data</button></div>
+      <div class="card"><div class="card-title"><span class="ic">❓</span>Quick links</div><a href="faq.html">FAQ & troubleshooting →</a><br><a href="lab.html">How the AI works →</a><br><a href="about.html">Our science →</a></div>
+    </aside>
+  </div></section>
+</main>
+<script src="knowledge.js"></script>
+<script src="demo-backend.js"></script>
+<script src="app.js"></script>
+<script src="samples.js"></script>
+<script src="idb.js"></script>
+<script src="contact.js"></script>
+</body>
+</html>

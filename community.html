@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Community Hub — Agralytic AI</title>
+  <meta name="description" content="Share plant-recovery stories, train with Bio-Agent quizzes and climb the Bio-Defender leaderboard.">
+  <meta name="theme-color" content="#0b0b0b">
+    <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="community">
+<main id="main">
+  <section class="page-hero"><div class="container">
+    <div class="eyebrow">The Green Network</div>
+    <h1>The <em>community</em></h1>
+    <p>Share how you saved your plants, learn from others, train your eye with Bio-Agent missions and climb the weekly <b>Bio-Defender</b> leaderboard.</p>
+  </div></section>
+
+  <section class="section" style="padding-top:12px"><div class="container split">
+    <div>
+      <div class="row between" style="margin-bottom:14px">
+        <div class="seg" id="sort"><button data-s="new" class="on">Latest</button><button data-s="top">Top</button></div>
+        <div class="row"><select class="input" id="f-dz" style="width:auto"><option value="">All topics</option></select><button class="btn btn-primary" id="new-post">Share a story</button></div>
+      </div>
+      <div id="posts" class="stack"><div class="skeleton" style="height:160px"></div></div>
+    </div>
+    <aside class="stack">
+      <div class="card" id="quiz-card">
+        <div class="card-title"><span class="ic">🎓</span>Bio-Agent Training</div>
+        <p class="card-sub">6 missions: recognise diseases before you even open the camera. +5 points per correct answer.</p>
+        <div id="quiz"><button class="btn btn-primary btn-block" id="quiz-start">Start mission</button></div>
+      </div>
+      <div class="card">
+        <div class="row between"><div class="card-title" style="margin:0"><span class="ic">🏆</span>The Bio-Defender</div><div class="seg" id="lb-range"><button data-r="week" class="on">Week</button><button data-r="all">All</button></div></div>
+        <div class="tabs" style="margin-top:12px"><button class="on" data-t="agents">Agents</button><button data-t="schools">Schools</button></div>
+        <div id="lb"></div>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="ic">🏅</span>Badges you can earn</div>
+        <div class="badges">
+          <div class="badge"><div class="b">📸</div>First Responder</div><div class="badge"><div class="b">🩺</div>Plant Doctor<br><span class="faint">10 scans</span></div><div class="badge"><div class="b">🧪</div>Eco Alchemist<br><span class="faint">3 recipes</span></div>
+          <div class="badge"><div class="b">🎓</div>Certified Bio-Agent<br><span class="faint">2 quizzes</span></div><div class="badge"><div class="b">🛡️</div>Biosecurity Champion<br><span class="faint">find an outbreak</span></div><div class="badge"><div class="b">🤝</div>Community Healer<br><span class="faint">2 stories</span></div>
+        </div>
+      </div>
+    </aside>
+  </div></section>
+</main>
+<script src="knowledge.js"></script>
+<script src="demo-backend.js"></script>
+<script src="app.js"></script>
+<script src="samples.js"></script>
+<script src="vision.js"></script>
+<script src="community.js"></script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agralytic — Every leaf is a sensor</title>
+  <meta name="description" content="Agralytic AI: a plant pathologist inside your phone. Detect leaf disease in seconds, treat it from the kitchen, warn the street before spores travel.">
+  <meta name="theme-color" content="#0b0b0b">
+    <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="experience.css">
+</head>
+<body data-page="index">
+  <div class="loader" aria-hidden="true">
+    <div class="loader-count"><span id="count">0</span></div>
+    <div class="loader-names" id="names"></div>
+  </div>
+
+  <main id="main">
+    <section class="hero" aria-label="Introduction">
+      <figure class="plate" id="plate" data-cursor="scan" aria-label="Specimen plate: a leaf read by the AI, infection highlighted">
+        <div class="plate-media" id="plate-media"></div>
+        <span class="plate-scan"></span>
+        <span class="plate-corner a"></span><span class="plate-corner b"></span><span class="plate-corner c"></span><span class="plate-corner d"></span>
+        <figcaption>
+          <span class="plate-tag tl">Specimen<br><span id="specimen-no">SG-04812</span></span>
+          <span class="plate-tag tr">On-device<br><span id="ms">27</span> ms</span>
+          <span class="plate-read"><em id="read-name">Podosphaera<br>xanthii</em><b id="read-conf">94.2%</b></span>
+        </figcaption>
+      </figure>
+
+      <h1 class="title">
+        <span class="ln t-1"><span>Every leaf</span></span>
+        <span class="ln t-2"><span>is a sens<span class="n">o</span>r.</span></span>
+        <span class="ln t-3"><span>Read it.</span></span>
+      </h1>
+
+      <p class="lede"><strong>Agralytic puts a plant pathologist inside the browser of any phone.</strong> It finds the infection in three seconds, prescribes a remedy from your kitchen and warns the street before the spores travel.</p>
+
+      <a class="seal" href="scanner.html" data-cursor="scan" aria-label="Scan a leaf now">
+        <span class="seal-ring"></span>
+        <svg viewBox="0 0 156 156" aria-hidden="true"><defs><path id="c" d="M78,78 m-58,0 a58,58 0 1,1 116,0 a58,58 0 1,1 -116,0"/></defs><text><textPath href="#c">scan a leaf now · works offline · no upload ·</textPath></text></svg>
+        <span class="seal-arrow" aria-hidden="true">→</span>
+      </a>
+
+      <div class="ticker" aria-hidden="true"><div class="ticker-track" id="ticker"></div></div>
+      <div class="scroll-cue" aria-hidden="true"><span id="clock">—</span><i></i><span>Scroll</span></div>
+    </section>
+
+    <section class="manifesto" aria-label="Why it matters">
+      <p class="m-a" data-reveal style="--rx:-40px">A fifth to two-fifths of the world’s harvest is lost to pests and disease. Most of it <em>could have been seen</em> a week earlier.</p>
+      <p class="m-b" data-reveal style="--rx:40px;--rd:.15s">Lab diagnosis takes days. Late blight takes ten. So people guess, and spray chemicals that don’t work on bacteria, can’t touch viruses, and end up in the groundwater. <b>Agralytic replaces the guess with a reading.</b></p>
+      <div class="m-stat" data-reveal style="--rx:-20px"><strong>3 s</strong><span>from photo to diagnosis, computed on the phone itself</span></div>
+      <div class="m-stat r" data-reveal style="--rx:30px;--rd:.1s"><strong>1 km</strong><span>the radius in which four matching cases raise a red zone and message the neighbours</span></div>
+    </section>
+
+    <section class="spec-index" aria-label="Specimen index">
+      <div class="si-head" data-reveal style="--rx:-30px"><h2>Eleven conditions,<br><em>one reading.</em></h2><p>Hover a name to see the specimen the AI was trained on. Every row opens the scanner.</p></div>
+      <ol class="si-list" id="si-list"></ol>
+    </section>
+
+    <section class="path" aria-label="How it works">
+      <p class="path-lead" data-reveal style="--rx:40px">One leaf becomes a protected street in four moves.</p>
+      <ol class="path-steps">
+        <li data-reveal style="--rx:-40px"><b>Scan</b><span>The camera finds the leaf and AR markers point at the infection. Nothing is uploaded.</span></li>
+        <li data-reveal style="--rx:40px;--rd:.08s"><b>Understand</b><span>A 3D leaf, a microscope view and a 14-day forecast of what happens if you wait.</span></li>
+        <li data-reveal style="--rx:-30px;--rd:.12s"><b>Treat</b><span>A kitchen recipe, ranked by evidence and community results, with a dose checker so organic never means overdosed.</span></li>
+        <li data-reveal style="--rx:30px;--rd:.16s"><b>Protect</b><span>An anonymous dot on the radar. Four matching dots inside a kilometre message every registered neighbour.</span></li>
+      </ol>
+    </section>
+
+    <section class="outro" aria-label="Start">
+      <p class="outro-note" data-reveal style="--rx:40px">No account. No upload. It even works in a rooftop garden with no signal.</p>
+      <a class="big-link" href="scanner.html" data-cursor="open" data-reveal style="--rx:-60px">Open the <em>scanner</em> <span class="arr">→</span></a>
+      <div class="foot"><span>Agralytic AI — plant biosecurity for every citizen</span><span><a href="dashboard.html">Field desk</a> · <a href="faq.html">Knowledge base</a> · <a href="about.html">Science &amp; sources</a> · <a href="contact.html">Contact</a></span></div>
+    </section>
+  </main>
+
+  <script src="knowledge.js"></script>
+<script src="demo-backend.js"></script>
+  <script src="app.js"></script>
+  <script src="samples.js"></script>
+  <script src="experience.js"></script>
+</body>
+</html>
